@@ -1,1 +1,1 @@
-time
+best_min
