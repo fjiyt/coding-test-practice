@@ -18,6 +18,7 @@ int main()
 
     priority_queue<pair<int, int> > pq;
 
+    //보석 가격을 기준으로 우선순위 큐
     for (int i = 0; i < N; i++)
     {
         int weight, value;
@@ -34,7 +35,8 @@ int main()
         ms.insert(weight);
     }
 
-    //돌면서 최적의 범위를 찾는다.
+    //가격이 제일 큰 보석부터 최적의 가방을 찾는다.
+    //보석의 무게와 같거나 조금 큰 가방을 선택 -> lower_bound
     int cnt = 0;
     multiset<int>::iterator it;
     while (!pq.empty())

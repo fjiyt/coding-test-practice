@@ -13,7 +13,7 @@ struct s
 };
 int student_vote[101] = {
     -1,
-};
+}; //추천받은 학생인지 표시, 몇번째 사진에 걸려이ㅣㅆ는지
 
 int picture_cnt = 0; //걸려있는 사진 수
 
@@ -39,21 +39,21 @@ int main()
         if (student_vote[student_num] == -1) //사진이 안걸려있는 경우
         {
             int tmp;
-            if (picture_cnt < N)
+            if (picture_cnt < N) //빈 사진틀이 있는 경우
             {
                 tmp = picture_cnt;
                 picture_cnt++;
             }
             else
             {
-                //삭제할 사진 찾기
+                //사진틀이 꽉찬 경우
                 int min_recommend = 1001;
                 int remove_index = 0;
                 for (int j = 0; j < N; j++)
                 {
                     if (min_recommend == frame[j].recommend)
                     {
-                        //더 오래된 사진 삭제
+                        //추천수가 같음 -> 더 오래된 사진 삭제
                         if (frame[remove_index].time > frame[j].time)
                         {
                             remove_index = j;
@@ -61,6 +61,7 @@ int main()
                     }
                     else if (min_recommend > frame[j].recommend)
                     {
+                        //최소 추천수 갱신
                         min_recommend = frame[j].recommend;
                         remove_index = j;
                     }
@@ -77,6 +78,7 @@ int main()
 
         else
         {
+            //사진이 이미 걸려있는 경우 -> 추천수 증가
             int tmp = student_vote[student_num];
             frame[tmp].recommend++;
         }
