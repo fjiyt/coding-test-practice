@@ -44,6 +44,7 @@ int main()
 
     findParent(1, 0);
 
+    //홀수면 이기고 짝수면 짐
     if (total % 2)
     {
         cout << "Yes\n";
