@@ -18,7 +18,6 @@ int main()
         cin >> num;
         v.push_back(num);
     }
-    int res = 0;
     //둘다 알카리성 (-)
     if (v[N - 1] < 0)
     {
@@ -55,6 +54,8 @@ int main()
             {
                 right--;
             }
+            else
+                break;
         }
 
         cout << num1 << " " << num2 << "\n";
