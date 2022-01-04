@@ -1,1 +1,1 @@
-# coding-test-practice
+# daily-algorithm
