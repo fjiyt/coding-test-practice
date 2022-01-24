@@ -1,3 +1,9 @@
+/*
+@author jy111099
+@date 2021-01-24
+@question BOJ-10800 [컬러볼]
+@solution prefix_sum
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -60,7 +66,7 @@ int main()
         }
     }
 
-    //color를 기준으로 sort
+    //idx를 기준으로 sort
     sort(arr.begin(), arr.end(), comp1);
 
     for(int i=0; i<N; i++)

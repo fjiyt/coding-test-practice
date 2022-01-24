@@ -1,4 +1,9 @@
-// 누적 gcd
+/*
+@author jy111099
+@date 2021-01-24
+@question BOJ-10800 [컬러볼]
+@solution prefix_sum
+*/
 #include <iostream>
 
 using namespace std;
