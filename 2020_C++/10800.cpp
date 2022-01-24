@@ -58,11 +58,8 @@ int main()
         arr[color][size] = sum;
         sum += size;
         pre_size = size;
-
-        cout << color << " " << size << " " << arr[color][size] << "\n";
     }
 
-    cout << "\n\n";
     //color를 기준으로 sort
     sort(v.begin(), v.end(), comp1);
     sum = 0;
@@ -95,8 +92,6 @@ int main()
         }
         pre_color = color;
         pre_size = size;
-
-        cout << color << " " << size << " " << arr[color][size] << "\n";
     }
 
     while (!que.empty())
