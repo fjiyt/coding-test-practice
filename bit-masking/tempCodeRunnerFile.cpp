@@ -1,0 +1,1 @@
+min_stick >> 1
