@@ -11,7 +11,7 @@
 using namespace std;
 int first;
 
-vector < pair <int,int> > adjList[300001];
+vector < pair <int,int>, vector<pair<int,int>>, greater<pair<int,int>> adjList[300001];
 int cost[20001];
 
 void dijkstra(int s)
