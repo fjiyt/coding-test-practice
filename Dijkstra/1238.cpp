@@ -1,3 +1,4 @@
+//다 시작장소가 다르기 때문에 다익스트라를 여러번 해야됨
 #include <iostream>
 #include <vector>
 #include <algorithm>
