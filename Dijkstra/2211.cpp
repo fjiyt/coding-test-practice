@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int INF = 1000000000;
+int INF = 10000000;
 int N, M;
 int d[1001] = {
     0,
@@ -56,7 +56,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    // cin >> N >> M;
+    cin >> N >> M;
     int city1, city2, time;
     for (int i = 0; i < M; i++)
     {
@@ -67,22 +67,20 @@ int main()
 
     for (int i = 1; i <= N; i++)
     {
-        d[i] = 2e9; //이 단위때문에 틀림
+        d[i] = INF;
     }
 
     dijkstra(1);
 
     cout << N - 1 << endl;
 
-    // for (int i = 1; i <= N; i++)
-    // {
-    //     if (pre[i] > 0)
-    //     {
-    //         cout << i << " " << pre[i] << "\n";
-    //     }
-    // }
+    for (int i = 1; i <= N; i++)
+    {
+        if (pre[i] > 0)
+        {
+            cout << i << " " << pre[i] << "\n";
+        }
+    }
 
-    int num = 2e9;
-    printf("%d", num);
     return 0;
 }
