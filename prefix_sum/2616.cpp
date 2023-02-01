@@ -17,6 +17,7 @@ void solve()
     {
         for(int j=i*M; j<=N; j++) //각 기관차에서 최소로 가질 수 있는 객차의 번호
         {
+            //j번째 숫자 선택 x , j번째 숫자 선택 o
             dp[i][j] = max(dp[i][j-1], dp[i-1][j-M] + (arr[j]-arr[j-M]));
         }
     }
