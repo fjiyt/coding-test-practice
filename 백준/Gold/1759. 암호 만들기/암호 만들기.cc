@@ -9,8 +9,30 @@ using namespace std;
 int L, C;
 vector <char> v;
 vector <int> check;
-priority_queue <string, vector<string>, greater<string>> pq;
+string str;
 
+void combination(int start, int cnt)
+{
+    if(cnt==L)
+    {
+        int a = 0, b=0;
+        for(int i=0; i<L; i++)
+        {
+            if(str[i]=='a' || str[i]=='e'|| str[i]=='i'|| str[i]=='o'|| str[i]=='u') a++;
+            else b++;
+        }
+        if(a>=1 && b>=2) cout << str << "\n";
+        return;
+    }
+
+    for(int i=start; i<C; i++)
+    {
+        string tmp = str;
+        str += v[i];
+        combination(i+1, cnt+1);
+        str = tmp;
+    }
+}
 int main()
 {
     cin >> L >> C;
@@ -24,38 +46,5 @@ int main()
 
     sort(v.begin(), v.end());
 
-    for(int i=0; i<C-L; i++)
-    {
-        check.push_back(0);
-    }
-    for(int i=C-L; i<C; i++)
-    {
-        check.push_back(1);
-    }
-    
-    do{
-        // cout << check[0] << "\n";
-        string str = "";
-        int a=0, b=0;
-        for(int i=0; i<C; i++)
-        {
-            if(check[i]==1)
-            {
-                if(v[i]=='a' || v[i]=='e'||v[i]=='i'||v[i]=='o'||v[i]=='u') {
-                    a++;
-                }
-                else b++;
-                str += v[i];
-            }
-        }
-
-        if(a>=1 && b>=2) pq.push(str);
-
-    }while(next_permutation(check.begin(),check.end()));
-
-    while(!pq.empty())
-    {
-        cout << pq.top() << "\n";
-        pq.pop();
-    }
+    combination(0,0);
 }
