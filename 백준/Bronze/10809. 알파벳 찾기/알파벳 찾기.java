@@ -17,10 +17,9 @@ public class Main {
             if(location[idx]==-1) location[idx] = i;
         }
 
-        for(int i=0; i<26; i++)
+        for(int val : location)
         {
-            System.out.print(location[i] + " ");
+            System.out.print(val + " ");
         }
-        System.out.println();
     }
 }
