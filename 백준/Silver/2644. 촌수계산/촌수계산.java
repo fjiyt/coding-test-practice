@@ -8,7 +8,7 @@ public class Main {
     static int s, e;
     static List<List<Integer>> map;
     static boolean [] isVisited;
-    static int cnt = 0;
+    static int res = -1;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -38,26 +38,22 @@ public class Main {
             map.get(p).add(c);
             map.get(c).add(p);
         }
-
-        System.out.println(dfs(s,0));
+        dfs(s,0);
+        System.out.println(res);
 
     }
 
-    public static int dfs(int start, int cnt) {
+    public static void dfs(int start, int cnt) {
         if(start == e) {
-            return cnt;
+            res = cnt;
+            return;
         }
+        isVisited[start] = true;
         for(int i: map.get(start))
         {
             if(!isVisited[i]){
-                isVisited[i] = true;
-                int ret = dfs(i, cnt+1);
-                if(ret > 0){
-                    return ret;
-                }
+                dfs(i, cnt+1);
             }
         }
-
-        return -1;
     }
 }
