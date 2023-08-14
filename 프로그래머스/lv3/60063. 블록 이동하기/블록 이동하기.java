@@ -1,101 +1,168 @@
 import java.util.*;
- 
+
 class Solution {
-    static int dx[] = {-1,1,0,0};
-    static int dy[] = {0,0,-1,1};
-    static int rx[][] = {{-1,0,-1,0}, {0,0,1,1} }; 
-    static int ry[][] = {{0,0,1,1}, {-1,0,-1,0}};
+    public int n;
+    public boolean row[][];
+    public boolean col[][];
+    public int map[][];
+    public int answer;
+    public int dx[] = {-1,1,0,0};
+    public int dy[] = {0,0,-1,1};
     
     public int solution(int[][] board) {
-        int answer = Integer.MAX_VALUE;
-        int len = board.length;
-        Queue<Robot> q = new LinkedList<>();
-        boolean visited[][][] = new boolean[2][101][101];
-                
-        q.add(new Robot(0,0,0,0));
-        visited[0][0][0] = true;
+        n = board.length;
+        answer = 0;
+        row = new boolean[n][n];
+        col = new boolean[n][n];
+        map = new int [n][n];
         
-        while(!q.isEmpty()){
-            Robot cur = q.poll();
-            if(cur.dir == 0 && cur.x == len-1 && cur.y == len-2 ){
-                answer = Math.min(answer, cur.cnt);
-                continue;
-            }else if(cur.dir == 1 && cur.x==len-2 && cur.y == len-1){
-                answer = Math.min(answer, cur.cnt);
-                continue;
-            }
-            
-            // 상하좌우 이동
-            for(int i=0; i<4; i++){
-                int nx = cur.x + dx[i];
-                int ny = cur.y + dy[i];
-                /* 움직일 수 있는지 체크 */
-                if(!canMove(nx,ny, cur.dir, board)) continue;
-                
-                if(!visited[cur.dir][nx][ny]){
-                    q.add(new Robot(nx,ny,cur.dir, cur.cnt+1));
-                    visited[cur.dir][nx][ny] = true;
-                }
-            }
-            
-            // 회전
-            for(int i=0; i<4; i++){
-                int nx = cur.x + rx[cur.dir][i];
-                int ny = cur.y + ry[cur.dir][i];
-                
-                /* 가로 방향은 상하로 움직일 수 있으면 회전 가능 */
-                int cx = cur.x + dx[i%2];
-                int cy = cur.y + dy[i%2];
-                
-                if(cur.dir == 1){   // 세로 방향은 좌우로 움직일 수 있으면 회전 가능
-                    cx = cur.x + dx[i<2?i+2:i];
-                    cy = cur.y + dy[i<2?i+2:i];
-                }
-                
-                int ndir = cur.dir^1;   // 방향 XOR 연산으로 계산
-                
-                /* 회전 할 수 있는지 체크 */
-                if(!canMove(nx,ny, ndir, board)|| !canMove(cx, cy, cur.dir, board) ) continue;
-                
-                if(!visited[ndir][nx][ny]){
-                    q.add(new Robot(nx,ny,ndir,cur.cnt+1));
-                    visited[ndir][nx][ny] = true;
-                }
-            }
+        for(int i=0; i<n; i++)
+        {
+            map[i] = board[i].clone();
         }
+        row[0][0] = true;
+        row[0][1] = true;
+        
+        bfs();
         
         return answer;
     }
     
-    /* 움직일 수 있는지 체크 */
-    public static boolean canMove(int nx, int ny, int dir, int[][] board){
-        int len = board.length;
-        if(dir == 0){
-            if(nx<0 || ny <0 || nx >= len || ny >= len || 
-               ny+1 >= len ||board[nx][ny] != 0 || board[nx][ny+1] != 0 ){
-                return false;
+    public void bfs() {
+        Queue <Robot> q = new LinkedList<>();
+        q.add(new Robot(new Point(0,0), new Point(0,1), 0));
+        q.add(new Robot(null, null, -1));
+        
+        int count = 0;
+        
+        while(!q.isEmpty())
+        {
+            Robot now = q.poll();
+            
+            // 한턴이 끝났다는 의미
+            if(now.dir==-1) {
+                count++;
+                if(!q.isEmpty())
+                    q.add(new Robot(null, null, -1));
+                continue;
             }
-            return true;
-        }else{
-            if(nx<0 || ny<0 || nx >= len || nx+1>=len || ny>=len ||
-              board[nx][ny] != 0 || board[nx+1][ny] != 0){
-                return false;
+            //도착
+            if((now.p1.x == n-1 && now.p1.y == n-1) || (now.p2.x==n-1 && now.p2.y==n-1)) {
+                answer = count;
+                return;
             }
-            return true;
+            //가로
+            if(now.dir==0)
+            {
+                for(int i=0; i<4; i++)
+                {
+                    int nx1 = now.p1.x + dx[i];
+                    int ny1 = now.p1.y + dy[i];
+                    int nx2 = now.p2.x + dx[i];
+                    int ny2 = now.p2.y + dy[i];
+                    
+                    if(check(nx1,ny1) && check(nx2, ny2))
+                    {
+                        if(!row[nx1][ny1] || !row[nx2][ny2])
+                        {
+                            Robot next = new Robot(new Point(nx1,ny1), new Point(nx2, ny2),0);
+                            row[nx1][ny1] = true;
+                            row[nx2][ny2] = true;
+                            q.add(next);
+                        }
+                    }
+                }
+                
+                for(int i=-1; i<=1; i+=2)
+                {
+                    int nx1 = now.p1.x + i;
+                    int ny1 = now.p1.y;
+                    int nx2 = now.p2.x + i;
+                    int ny2 = now.p2.y;
+                    
+                    if(check(nx1,ny1) && check(nx2, ny2))
+                    {
+                        if(!col[nx1][ny1] || !col[now.p1.x][now.p1.y])
+                        {
+                            col[nx1][ny1] = true;
+                            col[now.p1.x][now.p1.y] = true;
+                            q.add(new Robot(new Point(nx1, ny1), new Point(now.p1.x, now.p1.y), 1));
+                        }
+                        if(!col[nx2][ny2] || !col[now.p2.x][now.p2.y])
+                        {
+                            col[nx2][ny2] = true;
+                            col[now.p2.x][now.p2.y] = true;
+                            q.add(new Robot(new Point(nx2, ny2), new Point(now.p2.x, now.p2.y),1));
+                        }
+                    }
+                }
+            }
+            //세로
+            else{
+                for(int i=0; i<4; i++)
+                {
+                    int nx1 = now.p1.x + dx[i];
+                    int ny1 = now.p1.y + dy[i];
+                    int nx2 = now.p2.x + dx[i];
+                    int ny2 = now.p2.y + dy[i];
+                    
+                    if(check(nx1,ny1) && check(nx2, ny2))
+                    {
+                        if(!col[nx1][ny1] || !col[nx2][ny2])
+                        {
+                            Robot next = new Robot(new Point(nx1,ny1), new Point(nx2, ny2),1);
+                            col[nx1][ny1] = true;
+                            col[nx2][ny2] = true;
+                            q.add(next);
+                        }
+                    }
+                }
+                
+                for(int i=-1; i<=1; i+=2)
+                {
+                    int nx1 = now.p1.x;
+                    int ny1 = now.p1.y + i;
+                    int nx2 = now.p2.x;
+                    int ny2 = now.p2.y + i;
+                    
+                    if(check(nx1,ny1) && check(nx2, ny2))
+                    {
+                        if(!row[nx1][ny1] || !row[now.p1.x][now.p1.y])
+                        {
+                            row[nx1][ny1] = true;
+                            row[now.p1.x][now.p1.y] = true;
+                            q.add(new Robot(new Point(nx1, ny1), new Point(now.p1.x, now.p1.y), 0));
+                        }
+                        if(!row[nx2][ny2] || !row[now.p2.x][now.p2.y])
+                        {
+                            row[nx2][ny2] = true;
+                            row[now.p2.x][now.p2.y] = true;
+                            q.add(new Robot(new Point(nx2, ny2), new Point(now.p2.x, now.p2.y),0));
+                        }
+                    }
+                }
+            }
         }
     }
-        
+    public boolean check(int x,int y)
+    {
+        return x>=0 && x < n && y>=0 && y<n && map[x][y] == 0;
+    }
+    class Robot{
+        Point p1, p2;
+        int dir;
+        Robot(Point p1, Point p2, int dir) {
+            this.p1 = p1;
+            this.p2 = p2;
+            this.dir = dir;
+        }
+    }
     
-    static class Robot{
-        int x;
-        int y;
-        int dir;    // 0:가로 1:세로
-        int cnt;    // 걸린 시간
-        Robot(int x, int y, int dir, int cnt){
+    class Point{
+        int x,y;
+        Point(int x, int y) {
             this.x = x;
             this.y = y;
-            this.dir = dir;
-            this.cnt = cnt;
         }
     }
 }
