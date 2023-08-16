@@ -1,4 +1,4 @@
-# [Easy] Two Sum
+# [Easy] Merge Two Sorted Lists
 📍[문제링크](https://leetcode.com/problems/merge-two-sorted-lists/)\
 📍[제출결과](https://leetcode.com/problems/merge-two-sorted-lists/submissions/1023105312/)
 
