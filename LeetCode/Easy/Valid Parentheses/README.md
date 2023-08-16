@@ -1,5 +1,5 @@
 # [Easy] Valid Parentheses
-📍[문제링크](https://leetcode.com/problems/valid-parentheses/)
+📍[문제링크](https://leetcode.com/problems/valid-parentheses/)\
 📍[제출결과](https://leetcode.com/problems/valid-parentheses/submissions/1023070068/)
 
 ## Key point
