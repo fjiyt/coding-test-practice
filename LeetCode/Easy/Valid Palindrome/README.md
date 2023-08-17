@@ -1,4 +1,4 @@
-# [Easy] Two Sum
+# [Easy] Valid Palindrome
 📍[문제링크](https://leetcode.com/problems/valid-palindrome/)\
 📍[제출결과](https://leetcode.com/problems/valid-palindrome/submissions/1024026087/)
 
