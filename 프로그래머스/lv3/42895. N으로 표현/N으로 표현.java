@@ -2,49 +2,49 @@ import java.util.*;
 
 class Solution {
     public int solution(int N, int number) {
-        int answer = 0;
-        List <Set<Integer>> countList = new ArrayList<> ();
+        int answer = -1;
         
+        ArrayList <HashSet<Integer>> list = new ArrayList <>();
         for(int i=0; i<9; i++)
         {
-            countList.add(new HashSet<>());
+            list.add(new HashSet<Integer> ());
         }
         
-        countList.get(1).add(N);
+        list.get(1).add(N);
         
         for(int i=2; i<9; i++)
         {
-            Set <Integer> countSet = countList.get(i);
-            
-            for(int j=1; j<=i; j++)
+            HashSet <Integer> now = list.get(i);
+            for(int j=1; j<i; j++)
             {
-                Set <Integer> preSet = countList.get(i-j);
-                Set <Integer> postSet = countList.get(j);
-                
-                for(int preNum : preSet) 
+                HashSet <Integer> pre = list.get(j);
+                HashSet <Integer> post = list.get(i-j);
+            
+                for(int prev : pre)
                 {
-                    for(int postNum : postSet)
+                    for(int next : post)
                     {
-                        countSet.add(preNum + postNum);
-                        countSet.add(preNum - postNum);
-                        countSet.add(preNum * postNum);
+                        now.add(prev + next);
+                        now.add(prev - next);
+                        now.add(prev * next);
                         
-                        if(preNum != 0 && postNum != 0)
+                        if(prev != 0 && next != 0)
                         {
-                            countSet.add(preNum / postNum);
+                            now.add(prev/next);
                         }
                     }
                 }
+                now.add(Integer.parseInt(String.valueOf(N).repeat(i)));
             }
-            countSet.add(Integer.parseInt(String.valueOf(N).repeat(i)));
         }
         
-        for(Set <Integer> s : countList)
+        for(int i=1; i<9; i++)
         {
-            if(s.contains(number)) {
-                return countList.indexOf(s);
+            if(list.get(i).contains(number)) {
+                answer = i;
+                break;
             }
         }
-        return -1;
+        return answer;
     }
 }
