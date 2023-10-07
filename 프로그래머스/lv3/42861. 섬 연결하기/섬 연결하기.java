@@ -26,12 +26,7 @@ class Solution {
     }
     public int kruskal()
     {
-        Collections.sort(list, new Comparator<Node>() {
-            @Override
-            public int compare(Node n1, Node n2) {
-                return n1.c - n2.c;
-            }
-        });
+        Collections.sort(list, (a,b) -> Integer.compare(a.c, b.c));
         
         for(int i=0; i<n; i++)
         {
