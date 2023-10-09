@@ -2,41 +2,25 @@ import java.util.*;
 
 class Solution {
     public String solution(String number, int k) {
-        String answer = "";
+        int total = k;
+        
         Stack <Character> st = new Stack <> ();
-        int i = 0;
-        st.push(number.charAt(i));
-        i++;
-        while(i<number.length())
+        for(int i=0; i<number.length(); i++)
         {
-            int next = number.charAt(i)-'0';
-            while(!st.isEmpty() && k>0)
+            char c = number.charAt(i);
+            while(!st.isEmpty() && st.peek() < c && k-- > 0)
             {
-                int num = st.peek()-'0';
-                if(num < next)
-                {
-                    st.pop();
-                    k--;
-                }
-                else break;
+                st.pop();
             }
-            
-            st.push(number.charAt(i));
-            i++;
-        }
-        // 다 삭제가 안됐을경우
-        while(k-->0)
-        {
-            st.pop();
-        }
-
-        while(!st.isEmpty())
-        {
-            answer += st.pop();
+            st.push(c);
         }
         
-        StringBuffer sb = new StringBuffer(answer);
-        answer = sb.reverse().toString();
-        return answer;
+        char [] result = new char [number.length() - total];
+
+        for(int i=0; i<result.length; i++)
+        {
+            result[i] = st.get(i);
+        }
+        return new String(result);
     }
 }
