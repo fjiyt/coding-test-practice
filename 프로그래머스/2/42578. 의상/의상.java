@@ -8,8 +8,7 @@ class Solution {
         for(int i=0; i<clothes.length; i++)
         {
             if(hm.containsKey(clothes[i][1])) {
-                int cnt = hm.get(clothes[i][1]);
-                hm.put(clothes[i][1], cnt+1);
+                hm.put(clothes[i][1], hm.get(clothes[i][1]) + 1);
             }
             else hm.put(clothes[i][1], 1);
         }
