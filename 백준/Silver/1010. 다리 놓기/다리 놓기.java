@@ -9,28 +9,29 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         T = Integer.parseInt(br.readLine());
+
+        dp = new int[31][31];
         for(int i=0; i<T; i++)
         {
             StringTokenizer st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());
             M = Integer.parseInt(st.nextToken());
-            dp = new int[M+1][N+1];
 
             System.out.println(combine(M,N));
         }
     }
 
-    public static int combine(int M, int N)
+    public static int combine(int n, int r)
     {
-        if(dp[M][N] > 0)
+        if(dp[n][r] > 0)
         {
-            return dp[M][N];
+            return dp[n][r];
         }
-        if(N==0 || M==N)
+        if(r==0 || n==r)
         {
-            dp[M][N] = 1;
-            return dp[M][N];
+            dp[n][r] = 1;
+            return dp[n][r];
         }
-        return dp[M][N] = combine(M-1, N-1) + combine(M-1, N);
+        return dp[n][r] = combine(n-1, r-1) + combine(n-1, r);
     }
 }
